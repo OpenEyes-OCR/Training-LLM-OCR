@@ -1,11 +1,12 @@
-# Ignorar o repositório de treinamento do Tesseract, pois é um clone
+# Ignorar o repositório de treinamento do Tesseract, pois é um clone externo
 /tesstrain/
 
-# Ignorar todos os arquivos dentro dos diretórios de dataset e output
-# Apenas as pastas vazias serão monitoradas, o que é bom para estrutura
+# Ignorar todos os arquivos dentro dos diretórios de dataset e output.
+# Isso evita que dados brutos e modelos grandes sejam enviados para o GitHub.
+# Use 'git add -f' se precisar forçar a adição de um arquivo específico.
 /dataset/*
 /output/*
 
-# Ignorar arquivos temporários e logs que podem ser gerados
+# Ignorar arquivos temporários e de log do Tesseract
 *.log
 *.lstmf

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # --- 00a_create_test_files.sh ---
-# Gera um par de arquivos (.tif e .gt.txt) para testar o pipeline.
+# Gera um par de arquivos (.png e .gt.txt) para testar o pipeline.
 
 set -euo pipefail
 
@@ -15,12 +15,12 @@ echo -e "${GREEN}--- Gerando arquivos de teste ---${NC}"
 echo "Criando diretório '${RAW_DATA_DIR}' se não existir..."
 mkdir -p $RAW_DATA_DIR
 
-echo "Gerando imagem de teste: '${RAW_DATA_DIR}/teste.tif'"
+echo "Gerando imagem de teste: '${RAW_DATA_DIR}/teste.png'"
 convert -background white -fill black \
         -font "Courier" -pointsize 24 \
         label:"${TEST_TEXT}" \
         -trim +repage \
-        "${RAW_DATA_DIR}/teste.tif"
+        "${RAW_DATA_DIR}/teste.png"
 
 echo "Gerando texto de ground truth: '${RAW_DATA_DIR}/teste.gt.txt'"
 echo "${TEST_TEXT}" > "${RAW_DATA_DIR}/teste.gt.txt"

@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     imagemagick \
     python3 \
     python3-pip \
+    wget \
     # Ferramentas úteis para debug
     nano \
     curl \
