@@ -1,6 +1,10 @@
 # Ignorar o repositório de treinamento do Tesseract, pois é um clone externo
 /tesstrain/
 
+# Ignorar todos arquivos do bressay
+bressay/
+bressay.zip
+
 # Ignorar todos os arquivos dentro dos diretórios de dataset e output.
 # Isso evita que dados brutos e modelos grandes sejam enviados para o GitHub.
 # Use 'git add -f' se precisar forçar a adição de um arquivo específico.
