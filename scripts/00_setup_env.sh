@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # --- 00_setup_env.sh ---
-# (Versão para Docker
-# Este script prepara o ambiente para o treinamento do modelo Tesseract.
-# Ele instala as dependências necessárias e clona o repositório 'tesstrain'.
+# (Versão para Docker - sem sudo)
+# Prepara o ambiente, clona o repositório tesstrain e instala dependências Python.
 
 set -euo pipefail
 
@@ -14,23 +13,7 @@ NC='\033[0m'
 
 echo -e "${GREEN}--- Iniciando a configuração do ambiente (Docker Mode) ---${NC}"
 
-echo "Passo 1: Atualizando a lista de pacotes..."
-
-apt-get update
-
-echo "Passo 2: Instalando dependências essenciais..."
-
-apt-get install -y --no-install-recommends \
-    tesseract-ocr \
-    tesseract-ocr-por \
-    libtesseract-dev \
-    libleptonica-dev \
-    git \
-    make \
-    g++ \
-    pkg-config \
-    bc \
-    imagemagick
+# ... (comandos apt-get podem ser removidos pois já estão no Dockerfile, mas mantê-los não prejudica) ...
 
 echo "Passo 3: Verificando e clonando o repositório de treinamento do Tesseract..."
 if [ ! -d "$TESS_DIR" ]; then
@@ -39,5 +22,8 @@ if [ ! -d "$TESS_DIR" ]; then
 else
     echo "O diretório '$TESS_DIR' já existe. Pulando a clonagem."
 fi
+
+echo "Passo 4: Instalando dependências Python do tesstrain..."
+pip3 install -r ${TESS_DIR}/requirements.txt
 
 echo -e "\n${GREEN}--- Configuração do ambiente concluída com sucesso! ---${NC}"
