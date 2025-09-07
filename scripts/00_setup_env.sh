@@ -1,37 +1,26 @@
 #!/bin/bash
 
 # --- 00_setup_env.sh ---
+# (Versão para Docker
 # Este script prepara o ambiente para o treinamento do modelo Tesseract.
-# Ele instala as dependências necessárias (Tesseract, ferramentas de dev, git)
-# e clona o repositório 'tesstrain' oficial.
-#
-# COMO USAR:
-# 1. Dê permissão de execução: chmod +x scripts/00_setup_env.sh
-# 2. Execute a partir da raiz do projeto: ./scripts/00_setup_env.sh
+# Ele instala as dependências necessárias e clona o repositório 'tesstrain'.
 
-# --- Configuração de Segurança ---
-# 'set -e' termina o script imediatamente se um comando falhar.
-# 'set -u' trata o uso de variáveis não definidas como um erro.
-# 'set -o pipefail' garante que um pipeline de comandos retorne o status do último comando que falhou.
 set -euo pipefail
 
-# --- Variáveis ---
-# Repositório oficial do Tesseract para treinamento
 TESS_REPO="https://github.com/tesseract-ocr/tesstrain.git"
 TESS_DIR="tesstrain"
-
-# Cores para o terminal
 GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# --- Início da Execução ---
-echo -e "${GREEN}--- Iniciando a configuração do ambiente ---${NC}"
+echo -e "${GREEN}--- Iniciando a configuração do ambiente (Docker Mode) ---${NC}"
 
 echo "Passo 1: Atualizando a lista de pacotes..."
-sudo apt-get update
 
-echo "Passo 2: Instalando dependências essenciais (Tesseract, Git, Ferramentas de Build)..."
-sudo apt-get install -y \
+apt-get update
+
+echo "Passo 2: Instalando dependências essenciais..."
+
+apt-get install -y --no-install-recommends \
     tesseract-ocr \
     tesseract-ocr-por \
     libtesseract-dev \
@@ -39,7 +28,9 @@ sudo apt-get install -y \
     git \
     make \
     g++ \
-    pkg-config
+    pkg-config \
+    bc \
+    imagemagick
 
 echo "Passo 3: Verificando e clonando o repositório de treinamento do Tesseract..."
 if [ ! -d "$TESS_DIR" ]; then
@@ -50,5 +41,3 @@ else
 fi
 
 echo -e "\n${GREEN}--- Configuração do ambiente concluída com sucesso! ---${NC}"
-echo "O repositório de treinamento está em: $(pwd)/$TESS_DIR"
-echo "Próximo passo: Preparar os dados do dataset."
