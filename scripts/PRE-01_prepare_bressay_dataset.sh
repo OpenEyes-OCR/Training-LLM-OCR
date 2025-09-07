@@ -6,8 +6,9 @@
 
 set -euo pipefail
 
-# --- Configuração ---
-BRESSAY_SOURCE_DIR="bressay/data/words"
+# --- CORREÇÃO ---
+# O caminho foi corrigido de 'bressay/data/words' para 'bressay/data/lines'.
+BRESSAY_SOURCE_DIR="bressay/data/lines"
 PIPELINE_INPUT_DIR="dataset/raw"
 
 GREEN='\033[0;32m'
@@ -33,10 +34,7 @@ find "$BRESSAY_SOURCE_DIR" -name "*.png" | while read png_file; do
     if [ -f "$txt_file" ]; then
         formatted_counter=$(printf "%06d" $COUNTER)
         
-        # --- AQUI ESTAVA O ERRO ---
-        # Corrigido de "$png_g_file" para "$png_file"
         cp "$png_file" "${PIPELINE_INPUT_DIR}/bressay_${formatted_counter}.png"
-        
         cp "$txt_file" "${PIPELINE_INPUT_DIR}/bressay_${formatted_counter}.gt.txt"
         
         COUNTER=$((COUNTER + 1))
