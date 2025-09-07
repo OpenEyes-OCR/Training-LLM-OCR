@@ -8,7 +8,7 @@ set -euo pipefail
 
 MODEL_NAME="bressay"
 START_MODEL="por"
-MAX_ITERATIONS=400 # Reduzido para um teste rápido
+MAX_ITERATIONS=20000 # Reduzido para um teste rápido
 
 TESS_DIR="tesstrain"
 TESS_DATA_DIR="data"
