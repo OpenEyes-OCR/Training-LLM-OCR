@@ -1,13 +1,11 @@
 #!/bin/bash
 
 # --- PRE-01_prepare_bressay_dataset.sh ---
-# Script de uso único para extrair os dados do dataset BRESSAY de sua
-# estrutura aninhada e prepará-los para o nosso pipeline.
+# (Versão Final com Loop Corrigido)
+# Extrai os dados do BRESSAY usando um loop robusto que evita subshells.
 
 set -euo pipefail
 
-# --- CORREÇÃO ---
-# O caminho foi corrigido de 'bressay/data/words' para 'bressay/data/lines'.
 BRESSAY_SOURCE_DIR="bressay/data/lines"
 PIPELINE_INPUT_DIR="dataset/raw"
 
@@ -18,7 +16,7 @@ NC='\033[0m'
 echo -e "${GREEN}--- Iniciando a preparação do dataset BRESSAY ---${NC}"
 
 if [ ! -d "$BRESSAY_SOURCE_DIR" ]; then
-    echo -e "${YELLOW}ERRO: Diretório fonte do BRESSAY ('${BRESSAY_SOURCE_DIR}') não encontrado.${NC}"
+    echo -e "${YELLOW}ERRO: Diretório fonte ('${BRESSAY_SOURCE_DIR}') não encontrado.${NC}"
     exit 1
 fi
 
@@ -28,7 +26,10 @@ mkdir -p "$PIPELINE_INPUT_DIR"
 
 echo "Encontrando todos os pares de .png/.txt e copiando para '${PIPELINE_INPUT_DIR}'..."
 COUNTER=1
-find "$BRESSAY_SOURCE_DIR" -name "*.png" | while read png_file; do
+# --- A CORREÇÃO ---
+# Este padrão de loop com '< <(find...)' evita o problema do subshell,
+# garantindo que a variável COUNTER seja atualizada corretamente.
+while IFS= read -r -d '' png_file; do
     txt_file="${png_file%.png}.txt"
 
     if [ -f "$txt_file" ]; then
@@ -39,7 +40,7 @@ find "$BRESSAY_SOURCE_DIR" -name "*.png" | while read png_file; do
         
         COUNTER=$((COUNTER + 1))
     fi
-done
+done < <(find "$BRESSAY_SOURCE_DIR" -name "*.png" -print0)
 
 TOTAL_PAIRS=$((COUNTER - 1))
 echo -e "\n${GREEN}--- Preparação do BRESSAY concluída! ---${NC}"
