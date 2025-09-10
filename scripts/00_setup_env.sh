@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # --- 00_setup_env.sh ---
-# (Versão para Docker - sem sudo)
-# Prepara o ambiente, clona o repositório tesstrain e instala dependências Python.
+# (Versão Otimizada)
+# Prepara o ambiente e só instala as dependências Python se necessário.
 
 set -euo pipefail
 
@@ -13,17 +13,20 @@ NC='\033[0m'
 
 echo -e "${GREEN}--- Iniciando a configuração do ambiente (Docker Mode) ---${NC}"
 
-# ... (comandos apt-get podem ser removidos pois já estão no Dockerfile, mas mantê-los não prejudica) ...
-
-echo "Passo 3: Verificando e clonando o repositório de treinamento do Tesseract..."
 if [ ! -d "$TESS_DIR" ]; then
     echo "Clonando o repositório '$TESS_REPO'..."
     git clone $TESS_REPO $TESS_DIR
 else
-    echo "O diretório '$TESS_DIR' já existe. Pulando a clonagem."
+    echo "O diretório 'tesstrain' já existe. Pulando a clonagem."
 fi
 
-echo "Passo 4: Instalando dependências Python do tesstrain..."
-pip3 install -r ${TESS_DIR}/requirements.txt
+# --- Verificação Inteligente ---
+# Verifica se um pacote chave (Pillow) já está instalado.
+if pip3 list | grep -q "Pillow"; then
+    echo "Dependências Python já estão instaladas no volume. Pulando."
+else
+    echo "Instalando dependências Python do tesstrain no volume pela primeira vez..."
+    pip3 install -r ${TESS_DIR}/requirements.txt
+fi
 
 echo -e "\n${GREEN}--- Configuração do ambiente concluída com sucesso! ---${NC}"
