@@ -7,6 +7,12 @@
 
 Este projeto contém um pipeline automatizado e containerizado para treinar modelos de Reconhecimento Ótico de Caracteres (OCR) customizados com a engine Tesseract. Ele foi projetado para ser robusto, reproduzível e fácil de usar, transformando um dataset bruto de imagens e textos em um modelo `.traineddata` pronto para uso.
 
+### Siga-nos
+
+Acompanhe o desenvolvimento e as novidades do nosso projeto no Instagram!
+
+[![Instagram](https://img.shields.io/badge/Instagram-%40openeyesocr-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/openeyesocr)
+
 O sistema foi desenvolvido e testado com o dataset de caligrafia em português **BRESSAY**.
 
 ## Funcionalidades
@@ -147,9 +153,11 @@ Training-LLM-OCR/
     └── create_test_files.sh
 ```
 
-### Licença
+## Licença e Copyright
 
-Este projeto está sob a licença MIT.
+Este projeto é distribuído sob a Licença MIT.
+
+Copyright (c) 2025 OpenEyesOCR. Todos os direitos reservados.
 
 
 
