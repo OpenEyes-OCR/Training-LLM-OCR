@@ -153,9 +153,28 @@ Training-LLM-OCR/
     └── create_test_files.sh
 ```
 
-## Licença e Copyright
+## 🛠️ Tecnologias Utilizadas
 
-Este projeto é distribuído sob a Licença MIT.
+Este projeto foi construído utilizando um conjunto de ferramentas robustas e de código aberto, focadas em automação e reprodutibilidade.
+
+
+* **Tesseract:** O motor de OCR de código aberto do Google, utilizado como base para o treinamento e reconhecimento de texto. ![Tesseract](https://img.shields.io/badge/Tesseract-OCR-orange?style=for-the-badge&logo=tesseract) 
+
+* **Docker:** Ferramenta de containerização usada para criar um ambiente de desenvolvimento e execução isolado e consistente. ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) 
+
+* **Shell Script (Bash):** A "cola" do projeto. Utilizado para automatizar e orquestrar todas as etapas do pipeline.  
+![Shell Script](https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white) 
+
+* **Python:** Utilizado para os scripts auxiliares do `tesstrain` e para a construção da interface gráfica de monitoramento. ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) 
+
+* **Tkinter:** A biblioteca padrão do Python usada para criar o painel de monitoramento gráfico (GUI) em tempo real. ![Tkinter](https://img.shields.io/badge/Tkinter-GUI-blue?style=for-the-badge&logo=python&logoColor=white) 
+
+
+### Licença e Copyright
+
+Este projeto é distribuído sob a Licença MIT. 
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 Copyright (c) 2025 OpenEyesOCR. Todos os direitos reservados.
 
