@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# --- 00_setup_env.sh ---
-# (Versão Otimizada)
 # Prepara o ambiente e só instala as dependências Python se necessário.
 
 set -euo pipefail

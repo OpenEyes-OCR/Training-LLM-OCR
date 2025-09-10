@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# --- 00a_create_test_files.sh ---
 # Gera um par de arquivos (.png e .gt.txt) para testar o pipeline.
 
 set -euo pipefail
