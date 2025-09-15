@@ -14,7 +14,7 @@ NC='\033[0m'
 
 echo -e "${GREEN}--- Finalizando o modelo '${MODEL_NAME}' ---${NC}"
 mkdir -p "$FINAL_MODEL_DIR"
-LAST_CHECKPOINT=$(ls -tr "${OUTPUT_DIR}"/*.checkpoint | tail -1)
+LAST_CHECKPOINT=$(ls -t "${OUTPUT_DIR}"/*_checkpoint 2>/dev/null | head -1 || true)
 
 if [ -z "$LAST_CHECKPOINT" ]; then
     echo -e "${YELLOW}!!! ERRO !!! Nenhum checkpoint encontrado.${NC}"

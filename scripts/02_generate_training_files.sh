@@ -14,26 +14,36 @@ NC='\033[0m'
 
 echo -e "${GREEN}--- Gerando arquivos .lstmf e listas de treinamento para '${MODEL_NAME}'---${NC}"
 
-LIST_TRAIN_FILE="${TESS_DIR}/${MODEL_DATA_DIR}/list.train"
-if [ ! -f "$LIST_TRAIN_FILE" ]; then
-    echo -e "${YELLOW}!!! ERRO !!! '${LIST_TRAIN_FILE}' não encontrado.${NC}"
+cd "$TESS_DIR"
+
+if [ ! -f "${MODEL_DATA_DIR}/list.train" ]; then
+    echo -e "${YELLOW}!!! ERRO !!! '${MODEL_DATA_DIR}/list.train' não encontrado.${NC}"
     exit 1
 fi
 
-cd "$TESS_DIR"
+mapfile -t IMAGE_NAMES < <(find "${GROUND_TRUTH_DIR}" -maxdepth 1 -type f -name '*.png' -printf '%f\n' | sort)
 
-LSTMF_TARGETS=$(sed "s|^.*/||; s/\.png$/.lstmf/" "${MODEL_DATA_DIR}/list.train" | awk -v dir="${GROUND_TRUTH_DIR}/" '{print dir $0}')
+if [ "${#IMAGE_NAMES[@]}" -eq 0 ]; then
+    echo -e "${YELLOW}!!! ERRO !!! Nenhuma imagem encontrada em '${GROUND_TRUTH_DIR}'.${NC}"
+    exit 1
+fi
+
+LSTMF_TARGETS=()
+for img in "${IMAGE_NAMES[@]}"; do
+    base="${img%.png}"
+    LSTMF_TARGETS+=("${GROUND_TRUTH_DIR}/${base}.lstmf")
+done
+
 echo "Alvos .lstmf a serem construídos:"
-echo "$LSTMF_TARGETS"
+printf '%s\n' "${LSTMF_TARGETS[@]}"
 
-make TESSDATA=$TESS_DATA_DIR MODEL_NAME=$MODEL_NAME $LSTMF_TARGETS
+make TESSDATA=$TESS_DATA_DIR MODEL_NAME=$MODEL_NAME "${LSTMF_TARGETS[@]}"
 
 # --- A CORREÇÃO CRÍTICA ---
 # O comando 'make' acima cria os arquivos .lstmf, mas não a lista mestra.
 # Nós criamos a lista 'all-lstmf' manualmente aqui.
 echo "Criando a lista mestra de arquivos .lstmf ('all-lstmf')..."
-# O comando 'tr' garante que cada nome de arquivo fique em sua própria linha.
-echo "$LSTMF_TARGETS" | tr ' ' '\n' > "data/${MODEL_NAME}/all-lstmf"
+printf '%s\n' "${LSTMF_TARGETS[@]}" > "data/${MODEL_NAME}/all-lstmf"
 
 echo "Gerando as listas de treinamento finais ('train' e 'eval')..."
 # Agora este script encontrará seu arquivo de entrada

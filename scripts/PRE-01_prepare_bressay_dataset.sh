@@ -7,7 +7,9 @@
 set -euo pipefail
 
 # --- Configuração ---
-BRESSAY_SOURCE_DIR="bressay/data/lines"
+BRESSAY_SOURCE_ROOT="${BRESSAY_SOURCE_ROOT:-bressay/data}"
+BRESSAY_SOURCE_SUBDIR="${BRESSAY_SOURCE_SUBDIR:-lines}"
+BRESSAY_SOURCE_DIR="${BRESSAY_SOURCE_ROOT}/${BRESSAY_SOURCE_SUBDIR}"
 PIPELINE_INPUT_DIR="dataset/raw"
 # Arquivo de log para registrar imagens que falharam na validação
 BAD_FILES_LOG="dataset/bad_files.log"
@@ -19,8 +21,16 @@ NC='\033[0m'
 echo -e "${GREEN}--- Iniciando a preparação do dataset BRESSAY ---${NC}"
 
 if [ ! -d "$BRESSAY_SOURCE_DIR" ]; then
-    echo -e "${YELLOW}ERRO: Diretório fonte ('${BRESSAY_SOURCE_DIR}') não encontrado.${NC}"
-    exit 1
+    # fallback comum para o dataset Bressay extraído como palavras
+    if [ -d "${BRESSAY_SOURCE_ROOT}/words" ]; then
+        echo -e "${YELLOW}Diretório '${BRESSAY_SOURCE_DIR}' não encontrado. Usando '${BRESSAY_SOURCE_ROOT}/words'.${NC}"
+        BRESSAY_SOURCE_SUBDIR="words"
+        BRESSAY_SOURCE_DIR="${BRESSAY_SOURCE_ROOT}/words"
+    else
+        echo -e "${YELLOW}ERRO: Diretório fonte ('${BRESSAY_SOURCE_DIR}') não encontrado.${NC}"
+        echo -e "${YELLOW}Defina BRESSAY_SOURCE_SUBDIR ou verifique a extração do dataset.${NC}"
+        exit 1
+    fi
 fi
 
 echo "Limpando e recriando o diretório de entrada do pipeline: '${PIPELINE_INPUT_DIR}'..."

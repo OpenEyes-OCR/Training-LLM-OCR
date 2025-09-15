@@ -6,11 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Instalar todas as dependências do projeto
 RUN apt-get update && apt-get install -y \
-    tesseract-ocr \
-    tesseract-ocr-por \
-    libtesseract-dev \
-    libleptonica-dev \
-    libtiff5-dev \
+    software-properties-common \
     git \
     make \
     g++ \
@@ -19,10 +15,17 @@ RUN apt-get update && apt-get install -y \
     imagemagick \
     python3 \
     python3-pip \
+    python3-psutil \
     wget \
-    # Ferramentas úteis para debug
-    nano \
     curl \
+    nano \
+    && add-apt-repository -y ppa:alex-p/tesseract-ocr-devel \
+    && apt-get update && apt-get install -y \
+       tesseract-ocr \
+       tesseract-ocr-por \
+       libtesseract-dev \
+       libleptonica-dev \
+       libtiff5-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Definir o diretório de trabalho padrão
