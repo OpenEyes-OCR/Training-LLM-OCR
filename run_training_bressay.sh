@@ -3,7 +3,7 @@ set -e
 # --- Define o modo de operação para o modelo real ---
 export MODEL_NAME="bressay"
 # Define um número alto de iterações para o treinamento real
-export MAX_ITERATIONS=500000
+export MAX_ITERATIONS=200000
 
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
@@ -17,7 +17,8 @@ chmod +x scripts/*.sh
 echo -e "\n${CYAN}==> PASSO 1: Configurando ambiente...${NC}"
 ./scripts/00_setup_env.sh
 
-# AVISO: Este script assume que você já executou o PRE-01 para popular 'dataset/raw'.
+echo -e "\n${CYAN}==> PASSO 2: Preparando os arquivos em dataset/raw ...${NC}"
+./scripts/PRE-01_prepare_bressay_dataset.sh
 
 echo -e "\n${CYAN}==> PASSO 3: Organizando dados do BRESSAY...${NC}"
 ./scripts/01_prepare_data.sh
